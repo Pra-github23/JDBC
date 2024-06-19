@@ -1,0 +1,71 @@
+import java.sql.*;
+import java.util.Scanner;
+public class stuff {
+    static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/school";
+
+    static final String USER = "root";
+    static final String PASS = "*******";
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        Connection con=null;
+        PreparedStatement stmt=null;
+        Statement s=null;
+        try {
+             Class.forName(JDBC_DRIVER);
+             con=DriverManager.getConnection(DB_URL,USER,PASS);
+             s=con.createStatement();
+             String createTable="CREATE TABLE IF NOT EXISTS stuff(rno int,name varchar(20) ,age float)";
+             s.executeUpdate(createTable);
+            int stuffMember=sc.nextInt();
+            
+            ResultSet rs=null;
+
+             
+             while(stuffMember-- > 0){
+                System.out.println("enter the rno :");
+                int rno=sc.nextInt();
+                System.out.println("enter the name :");
+                String name=sc.next();
+                System.out.println("enter the age :");
+                float age=sc.nextFloat();
+                String query="insert into stuff values(?,?,?)";
+                stmt=con.prepareStatement(query);
+                stmt.setInt(1,rno);
+                stmt.setString(2,name);
+                stmt.setFloat(3,age);
+                stmt.executeUpdate();
+             }
+            
+             rs.close();
+             stmt.close();
+             s.close();
+             con.close();
+             
+        }
+        catch(Exception e){
+
+        }
+        finally{
+            try{
+               if(stmt != null)stmt.close();
+            }
+            catch(SQLException sq){
+              //nothing
+            }
+            try{
+                if(s != null)s.close();
+            }
+            catch(SQLException sq){
+                //nothing
+            }
+            try{
+                if(con != null)con.close();
+            }
+            catch(SQLException sq){
+                sq.printStackTrace();
+            }
+
+        }
+    }
+}
