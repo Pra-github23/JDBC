@@ -1,0 +1,51 @@
+import java.sql.*;
+import java.util.Scanner;
+public class stuff {
+    static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/school";
+
+    static final String USER = "root";
+    static final String PASS = "*******";
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        Connection con=null;
+        
+        Statement s=null;
+        try {
+             Class.forName(JDBC_DRIVER);
+             con=DriverManager.getConnection(DB_URL,USER,PASS);
+             s=con.createStatement();
+             String createTable="CREATE TABLE IF NOT EXISTS stuff(rno int,name varchar(20) ,age float)";
+             s.executeUpdate(createTable);
+           rs.close();
+            
+             s.close();
+             con.close();
+             
+        }
+        catch(Exception e){
+
+        }
+        finally{
+            try{
+               if(stmt != null)stmt.close();
+            }
+            catch(SQLException sq){
+              //nothing
+            }
+            try{
+                if(s != null)s.close();
+            }
+            catch(SQLException sq){
+                //nothing
+            }
+            try{
+                if(con != null)con.close();
+            }
+            catch(SQLException sq){
+                sq.printStackTrace();
+            }
+
+        }
+    }
+}
